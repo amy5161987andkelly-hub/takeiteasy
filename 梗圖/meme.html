@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一鍵爆笑梗圖</title>
+    
+    <link rel="stylesheet" href="../styles.css"> 
+
+    <style>
+        /* ... (CSS 樣式保持不變) ... */
+        :root {
+            --primary-color: #ff5722; /* 橘紅 */
+            --secondary-color: #333; /* 深灰 */
+            --bg-color: #fce4ec; /* 淺粉 */
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'Heiti TC', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-color), #f8bbd0);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 50px; 
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            letter-spacing: 1px;
+        }
+
+        /* 靜音按鈕樣式 */
+        #muteBtn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 101;
+            transition: background 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        #muteBtn:hover { background: #555; }
+        
+        /* 梗圖顯示區域 */
+        #memeDisplay {
+            width: 100%;
+            max-width: 500px;
+            height: 0;
+            padding-bottom: 75%; 
+            position: relative;
+            margin: 0 auto 30px auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: #eee;
+        }
+
+        #currentMeme {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* 按鈕樣式 */
+        #drawMemeBtn {
+            padding: 15px 40px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 5px #c8411b;
+        }
+
+        #drawMemeBtn:hover {
+            background-color: #c8411b;
+        }
+
+        #drawMemeBtn:active {
+            box-shadow: 0 2px #c8411b;
+            transform: translateY(3px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="../index.html" class="back-button">
+        ⬅️ 返回管理局首頁
+    </a>
+
+    <audio id="bgMusic" src="小當家.mp3" loop preload="auto"></audio> 
+    <audio id="clickSound" src="今天很嗆是八.mp3" preload="auto"></audio> 
+
+    <button id="muteBtn" title="開啟/關閉音樂">🔊</button>
+
+    <div class="container">
+        <h1>😂 一鍵爆笑梗圖 😂</h1>
+        <div id="memeDisplay">
+            <img id="currentMeme" src="" alt="隨機梗圖">
+        </div>
+        <button id="drawMemeBtn">抽一張新的！</button>
+    </div>
+
+    <script>
+        // ------------------
+        // 核心修正區域: 確保 memeImages 包含所有 50 張圖片 (與上次相同)
+        // ------------------
+
+        // 💥 修正: 移除音效配對，因為我們只用一個固定的按鈕音 💥
+        const memeImages = [];
+        for (let i = 1; i <= 50; i++) {
+            memeImages.push({ 
+                src: `${i}.jpg`
+            });
+        }
+        
+        const drawMemeBtn = document.getElementById('drawMemeBtn');
+        const currentMeme = document.getElementById('currentMeme');
+        const bgMusic = document.getElementById('bgMusic');
+        const clickSound = document.getElementById('clickSound'); // 💥 修正: 獲取點擊音效 💥
+        const muteBtn = document.getElementById('muteBtn');
+        
+        let isMusicPlaying = false;
+        let isMusicMuted = true;
+        
+        // --- 核心換圖邏輯 ---
+        function drawRandomMeme() {
+            // 確保每次抽圖時都有淡入淡出效果
+            currentMeme.style.animation = 'none';
+            currentMeme.offsetHeight; 
+            currentMeme.style.animation = '';
+            
+            const randomIndex = Math.floor(Math.random() * memeImages.length);
+            const selectedMeme = memeImages[randomIndex];
+
+            currentMeme.src = selectedMeme.src;
+
+            // 播放 BGM
+            if (!isMusicPlaying && !isMusicMuted) {
+                bgMusic.play().then(() => {
+                    isMusicPlaying = true;
+                }).catch(error => {
+                    console.warn("瀏覽器阻擋自動播放", error);
+                });
+            }
+        }
+        
+        // 預設載入第一張圖片並顯示
+        if (memeImages.length > 0) {
+            currentMeme.src = memeImages[0].src;
+        }
+
+        // 靜音切換
+        muteBtn.addEventListener('click', () => {
+            isMusicMuted = !isMusicMuted;
+            bgMusic.muted = isMusicMuted;
+            clickSound.muted = isMusicMuted; // 💥 修正: 控制按鈕音效 💥
+            muteBtn.textContent = isMusicMuted ? '🔇' : '🔊';
+
+            if (isMusicMuted) {
+                bgMusic.pause();
+                clickSound.pause(); 
+            } else {
+                if (!isMusicPlaying) {
+                    bgMusic.play().then(() => {
+                        isMusicPlaying = true;
+                    }).catch(error => {
+                        console.warn("音樂播放受限", error);
+                    });
+                } else {
+                    bgMusic.play();
+                }
+            }
+        });
+
+        // 綁定按鈕點擊事件
+        drawMemeBtn.addEventListener('click', () => {
+            // 💥 修正: 播放固定的按鈕音效 💥
+            if (!isMusicMuted) {
+                clickSound.currentTime = 0;
+                clickSound.playbackRate = 1.0;
+                clickSound.play().catch(e => console.error("按鈕點擊音效播放失敗:", e));
+            }
+            drawRandomMeme(); // 換圖
+        });
+
+        // 初始化靜音按鈕
+        muteBtn.textContent = '🔇';
+        bgMusic.muted = true;
+        clickSound.muted = true; // 💥 修正 💥
+    </script>
+</body>
+</html>

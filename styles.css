@@ -1,0 +1,105 @@
+/* --- 1. 響應式基礎設定 (確保手機版面不跑版) --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* 確保圖片和媒體元素不會超出父容器 */
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block; 
+}
+
+/* --- 2. 返回鍵通用樣式 (適用於所有子頁面) --- */
+.back-button {
+    /* 確保返回鍵固定在左上角，且層級最高 */
+    position: fixed; 
+    top: 15px;
+    left: 15px;
+    z-index: 1000; 
+    
+    /* 外觀設計 */
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #4A4A4A;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s, transform 0.1s;
+    white-space: nowrap; 
+}
+
+.back-button:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+/* --- 3. index.html 主頁面樣式 --- */
+body {
+    font-family: '微軟正黑體', 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f0f0f5; 
+    min-height: 100vh;
+}
+
+.main-title {
+    color: #333;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    text-align: center;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%; 
+    max-width: 300px; 
+    text-align: center;
+    transition: transform 0.2s;
+    text-decoration: none; 
+    color: inherit;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #666;
+}
+
+/* --- 響應式調整 (中小型螢幕) --- */
+@media (max-width: 768px) {
+    .card {
+        padding: 20px;
+        flex: 1 1 90%; 
+    }
+    .main-title {
+        font-size: 2em;
+    }
+}

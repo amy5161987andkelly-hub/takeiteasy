@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>放空管理局</title>
+    
+    <link rel="stylesheet" href="styles.css"> 
+    
+    <style>
+        /* 由於我們將所有通用樣式放在 styles.css，這裡只確保基礎佈局 */
+        body {
+            font-family: '微軟正黑體', 'Arial', sans-serif;
+            background-color: #f0f0f4; /* 淺灰背景 */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .header {
+            padding: 40px 20px;
+            background-color: #fff;
+            width: 100%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        /* 💥 新標題樣式 💥 */
+        h1 {
+            color: #ff4500; /* 亮橘紅色，吸引眼球 */
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+            line-height: 1.2;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 💥 新副標題樣式 💥 */
+        .header p {
+            font-size: 1.2em;
+            color: #4CAF50; /* 綠色，強調方案優勢 */
+            margin-top: 0;
+            font-weight: 500;
+        }
+
+        .main-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 600px;
+            width: 90%;
+            padding-bottom: 50px;
+        }
+
+        /* 選單按鈕通用樣式 */
+        .menu-item {
+            display: block;
+            padding: 20px 30px;
+            text-decoration: none;
+            border-radius: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 項目一：一鍵幹話製造機 */
+        .menu-item.nonsense {
+            background: linear-gradient(135deg, #8e44ad, #9b59b6); /* 紫色系 */
+        }
+        .menu-item.nonsense .icon { content: "💬"; }
+
+        /* 項目二：抽籤詩 */
+        .menu-item.lottery {
+            background: linear-gradient(135deg, #d35400, #e67e22); /* 橘色系 */
+        }
+        .menu-item.lottery .icon { content: "🔮"; }
+
+        /* 項目三：梗圖製造機 */
+        .menu-item.meme {
+            background: linear-gradient(135deg, #2ecc71, #27ae60); /* 綠色系 */
+        }
+        .menu-item.meme .icon { content: "🖼️"; }
+        
+        .item-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .item-content span {
+            margin-right: 15px;
+            font-size: 1.5em;
+            line-height: 1;
+        }
+
+        .description {
+            display: block;
+            font-size: 0.7em;
+            font-weight: normal;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2em; }
+            .header p { font-size: 1em; }
+            .menu-item { font-size: 1.3em; }
+            .menu-item span { font-size: 1.2em; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🚨 腦袋過勞警報！專家建議：即刻斷線 🚨</h1> 
+        
+        <p>限時搶購！宇宙級喘息方案：一鍵清空焦慮，三種放空模式隨您挑選！</p>
+    </div>
+
+    <div class="main-menu">
+        
+        <a href="幹話/nonsense.html" class="menu-item nonsense">
+            <div class="item-content">
+                <span>💬</span>一鍵幹話製造機
+            </div>
+            <span class="description">無意義且治癒人心的廢話生成器，讓你忘記工作的意義。</span>
+        </a>
+
+        <a href="抽籤/lottery.html" class="menu-item lottery">
+            <div class="item-content">
+                <span>🔮</span>神明指示抽籤
+            </div>
+            <span class="description">無需解讀，抽出今日的隨機指引，一切交給玄學。</span>
+        </a>
+
+        <a href="梗圖/meme.html" class="menu-item meme">
+            <div class="item-content">
+                <span>🖼️</span>每日梗圖製造機
+            </div>
+            <span class="description">隨機顯示最能表達你心情的梗圖，用圖片代替語言。</span>
+        </a>
+        
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,187 @@
+/* 設定全域字體和背景 */
+body {
+    font-family: 'Arial Black', Gadget, sans-serif;
+    background: linear-gradient(135deg, #ff99cc, #ffcc99, #ffff99);
+    color: #444;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 10px solid #ff4d4d;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+    max-width: 90%;
+    width: 600px;
+    margin-top: 50px;
+    /* 確保 container 在小螢幕上不會跑版 */
+    box-sizing: border-box; 
+}
+
+/* 標題與音樂按鈕排版 (讓音樂按鈕靠右) */
+header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 20px; 
+}
+
+/* 標題樣式 */
+header h1 {
+    color: #007bff;
+    text-shadow: 3px 3px 0 #ffff66, -3px -3px 0 #ff66a3;
+    font-size: 2.5em;
+    margin: 0;
+    flex-grow: 1; 
+    text-align: left; /* 保持靠左，讓出右邊空間給按鈕 */
+    animation: bounce 1s infinite; 
+}
+
+/* 標題彈跳動畫 */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* 🌟 優化音樂開關按鈕為圖示樣式 🌟 */
+#musicToggle {
+    background-color: #00bcd4;
+    color: white;
+    border: none;
+    padding: 8px 10px; /* 調整 padding 讓按鈕小一點 */
+    border-radius: 50%; /* 讓按鈕變成圓形 */
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2em; /* 符號大小 */
+    box-shadow: 0 4px #008ba3;
+    transition: all 0.1s;
+    line-height: 1; /* 確保符號垂直置中 */
+}
+
+#musicToggle:active {
+    box-shadow: 0 2px #008ba3;
+    transform: translateY(2px);
+}
+
+/* 🌟 笑臉按鈕置中 🌟 */
+.draw-area {
+    /* 使用 flex 讓按鈕區內容置中 */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 讓笑臉按鈕和文字置中 */
+}
+
+.draw-area p {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ff4d4d;
+    margin-top: 10px;
+}
+
+/* 笑臉按鈕樣式 */
+.smiley-button {
+    font-size: 80px; 
+    background: #ffdb58; 
+    border: 8px solid #ff4d4d; 
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    box-shadow: 0 10px #ccaa00; 
+    transition: all 0.1s;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: shake 0.5s infinite; 
+}
+
+.smiley-button:active {
+    box-shadow: 0 5px #ccaa00;
+    transform: translateY(5px) scale(0.98); 
+}
+
+/* 震動動畫定義 */
+@keyframes shake {
+    0%, 100% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    /* ... (其他震動幀保持不變) ... */
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+}
+
+
+/* 結果區樣式 */
+.result-box {
+    min-height: 200px;
+    background-color: #fff9e6;
+    border: 3px dashed #ff4d4d;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease-out;
+}
+
+.result-box.hidden {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    border: none;
+    min-height: 0;
+}
+
+#gengtuImage {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 10px;
+    border: 5px solid #007bff; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 🌟 響應式設計：手機版優化 (當螢幕寬度小於 600px 時應用) 🌟 */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px; /* 減少內邊距 */
+        margin-top: 20px; /* 內容更靠上 */
+    }
+
+    header h1 {
+        font-size: 1.8em; /* 縮小標題字體 */
+        text-align: center; /* 標題在手機上置中 */
+        margin-bottom: 10px;
+        line-height: 1.2;
+    }
+
+    /* 確保音樂按鈕不會影響標題顯示 */
+    header {
+        flex-direction: column; /* 垂直堆疊標題和按鈕 */
+        align-items: flex-end; /* 將按鈕靠右 */
+    }
+    
+    header h1 {
+        order: 2; /* 讓標題在下方 */
+        flex-grow: 0; 
+    }
+    
+    #musicToggle {
+        order: 1; /* 讓按鈕在上方 */
+        margin-bottom: 10px; /* 按鈕和標題之間增加間距 */
+        align-self: flex-end; /* 確保按鈕在手機上靠右 */
+    }
+
+    .smiley-button {
+        width: 120px;
+        height: 120px;
+        font-size: 60px; /* 縮小按鈕尺寸 */
+    }
+}
