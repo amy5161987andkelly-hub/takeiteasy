@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 占卜不求人</title>
+    
+    <link rel="stylesheet" href="../styles.css"> 
+
+    <style>
+        /* --- 基礎樣式與背景 --- */
+        body {
+            font-family: '微軟正黑體', 'Arial', sans-serif;
+            text-align: center;
+            padding: 30px;
+            background-color: #ffeef2; /* 淺粉色可愛背景 */
+            color: #4a4a4a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px; /* 💥 為返回鍵預留頂部空間 💥 */
+            position: relative;
+        }
+
+        /* 💥 新增：返回鍵樣式定位 💥 */
+        .back-button {
+            position: fixed; /* 固定在頁面上方 */
+            top: 15px;
+            left: 15px;
+            text-decoration: none;
+            color: #d6336c; 
+            background: rgba(255, 255, 255, 0.8);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000; /* 確保在其他內容之上 */
+            transition: background 0.2s;
+        }
+        .back-button:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        /* --- 標題容器：垂直置中且間距緊密 --- */
+        #mainHeader {
+            margin-bottom: 40px; 
+            padding-top: 5px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+
+        h1 {
+            color: #d6336c; /* 深粉色標題 */
+            font-size: 2.5em;
+            margin-bottom: 0; 
+            margin-top: 0; 
+            line-height: 1.2;
+            text-align: center;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: #888;
+            margin-top: 5px; 
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        /* --- 按鈕設計 (跳動的心臟) --- */
+        #drawButton {
+            position: relative;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            cursor: pointer;
+            background-color: #ff69b4; 
+            color: white;
+            border: none;
+            border-radius: 50px; 
+            box-shadow: 0 8px 15px rgba(214, 51, 108, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            overflow: hidden; 
+        }
+        #drawButton:hover {
+            background-color: #ff85c0;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(214, 51, 108, 0.6);
+        }
+        #drawButton:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* 心臟圖標和文字容器 */
+        .heart-container {
+            display: flex;
+            align-items: center;
+            animation: pulse 1s infinite alternate; 
+        }
+        .heart-icon {
+            font-size: 2em;
+            line-height: 1;
+            margin-right: 10px;
+        }
+
+        /* --- 心跳動畫 --- */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        /* --- 籤詩結果區塊 --- */
+        #lotteryResult {
+            margin: 30px auto;
+            max-width: 650px;
+            width: 100%;
+            background-color: white;
+            border: 3px solid #ff69b4;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 150px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        #lotteryResult.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #lotteryResult h2 {
+            color: #d6336c;
+            border-bottom: 2px solid #ff69b4;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        /* 💥 新增：結果圖片的專用樣式 💥 */
+        .poem-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* 輕微陰影 */
+        }
+
+        /* --- 煙霧/過渡效果區塊 --- */
+        #smokeOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95); 
+            display: none; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5em;
+            color: #d6336c;
+            z-index: 1000;
+        }
+        .smoke-text {
+            animation: flicker 0.8s infinite alternate;
+        }
+
+        /* 煙霧動畫 */
+        @keyframes flicker {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    
+    <a href="../index.html" class="back-button">
+        ⬅️ 返回管理局首頁
+    </a>
+
+    <div id="smokeOverlay">
+        <div class="smoke-text">✨ 命運正在顯現... ✨</div>
+    </div>
+
+    <div id="mainHeader">
+        <h1>🔮 占卜不求人</h1>
+        <div class="subtitle">信不信由你！誠心點擊心臟，抽取今日指引。</div>
+    </div>
+
+    <button id="drawButton" onclick="startDrawProcess()">
+        </button>
+
+    <div id="lotteryResult">
+        <p style="text-align: center;">抽籤結果將會顯示在這裡...</p>
+    </div>
+
+    <script>
+        // *** 籤詩數量已設定為 100 ***
+        const totalPoems = 100; 
+        // 設定籤詩檔案所在的資料夾名稱
+        const poemsFolder = ''; 
+        const resultElement = document.getElementById('lotteryResult');
+        const drawButton = document.getElementById('drawButton');
+        const smokeOverlay = document.getElementById('smokeOverlay');
+        
+        // 按鈕內容的 HTML
+        const buttonContent = '<div class="heart-container"><span class="heart-icon">❤️</span>AS YOU WISH</div>';
+
+        /**
+         * 啟動抽籤流程 (包含煙霧過渡動畫)
+         */
+        function startDrawProcess() {
+            // 1. 鎖定按鈕並隱藏結果
+            drawButton.disabled = true;
+            resultElement.classList.add('hidden');
+            
+            // 2. 顯示煙霧過渡層
+            smokeOverlay.style.display = 'flex';
+
+            // 3. 延時 1.5 秒執行抽籤和顯示結果
+            setTimeout(() => {
+                drawLottery();
+                
+                // 4. 隱藏煙霧層並顯示結果
+                smokeOverlay.style.display = 'none';
+                resultElement.classList.remove('hidden');
+
+                // 讓畫面自動平滑滾動到結果區塊中央
+                resultElement.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center'    
+                });
+
+                // 按鈕重新啟用已包含在 drawLottery 函式內 (圖片的 onload/onerror)
+            }, 1500); 
+        }
+
+        /**
+         * 核心抽籤函式：隨機選擇籤號並載入對應的 JPG 圖片
+         */
+        function drawLottery() {
+            // 1. 生成一個 1 到 100 之間的隨機籤號
+            const randomPoemNumber = Math.floor(Math.random() * totalPoems) + 1;
+
+            // 2. 構建檔案路徑 (副檔名為 .jpg)
+            const filePath = `${poemsFolder}${randomPoemNumber}.jpg`;
+
+            // 3. 使用 <img> 標籤來顯示圖片
+            resultElement.innerHTML = `
+                <h2>🔔 抽中籤號: 第 ${randomPoemNumber} 籤</h2>
+                <hr>
+                <img 
+                    src="${filePath}" 
+                    alt="抽到的籤詩圖片" 
+                    class="poem-image" onload="document.getElementById('drawButton').disabled = false; document.getElementById('drawButton').innerHTML = buttonContent;"
+                    onerror="handleImageError('${filePath}');"
+                >
+            `;
+            
+            // 圖片載入失敗的處理程序不需要放在 onload/onerror 屬性中，但為了保留您的原始結構，保持不變。
+        }
+
+        /**
+         * 處理圖片載入失敗的錯誤訊息
+         */
+        function handleImageError(filePath) {
+            document.getElementById('lotteryResult').innerHTML = `
+                <h3 style="color: #FF0000; text-align: center;">❌ 載入圖片失敗！(404 Not Found)</h3>
+                <p style="text-align: center;">請檢查檔案路徑是否正確：<code>${filePath}</code></p>
+                <p style="text-align: center;">請確認您是否有 <code>1.jpg</code> 到 <code>${totalPoems}.jpg</code> 共 ${totalPoems} 個檔案。</p>
+            `; 
+            document.getElementById('drawButton').disabled = false; 
+            document.getElementById('drawButton').innerHTML = buttonContent;
+        }
+
+        // 初始化：設定按鈕內容
+        drawButton.innerHTML = buttonContent; 
+        
+    </script>
+</body>
+</html>
